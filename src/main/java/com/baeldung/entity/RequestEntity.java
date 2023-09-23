@@ -9,6 +9,10 @@ public class RequestEntity {
     @Column
     @GeneratedValue(strategy = GenerationType.UUID)
     private String request_id;
+    
+    @Id
+    @Column
+    private String owner;
 
     @Id
     @Column
@@ -20,7 +24,7 @@ public class RequestEntity {
 
     @Id
     @Column
-    private String job_id;
+    private String activity_id;
 
     public String getRequest_id() {
         return request_id;
@@ -46,11 +50,19 @@ public class RequestEntity {
         this.req_type = req_type;
     }
 
-    public String getJob_id() {
-        return job_id;
+    public String getActivity_id() {
+        return activity_id;
     }
 
-    public void setJob_id(String job_id) {
-        this.job_id = job_id;
+    public void setActivity_id(String job_id) {
+        this.activity_id = job_id;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

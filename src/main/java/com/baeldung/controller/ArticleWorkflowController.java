@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baeldung.domain.Approval;
 import com.baeldung.domain.Article;
-import com.baeldung.service.ArticleWorkflowService;
+import com.baeldung.service.workFlowServices.ArticleWorkflowService;
 
 @RestController
 public class ArticleWorkflowController {

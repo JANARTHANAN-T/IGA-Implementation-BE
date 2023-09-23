@@ -38,12 +38,12 @@
 		</sequenceFlow>
 		<serviceTask id="tutorialApproved"
 			name="Publish the approved tutorial."
-			flowable:class="com.baeldung.service.PublishArticleService" />
+			flowable:class="com.baeldung.service.workFlows.PublishArticleService" />
 		<sequenceFlow sourceRef="tutorialApproved"
 			targetRef="end" />
 		<serviceTask id="tutorialRejected"
 			name="Send out rejection email"
-			flowable:class="com.baeldung.service.SendMailService" />
+			flowable:class="com.baeldung.service.workFlows.SendMailService" />
 		<sequenceFlow sourceRef="tutorialRejected"
 			targetRef="end" />
 		<endEvent id="end" />
