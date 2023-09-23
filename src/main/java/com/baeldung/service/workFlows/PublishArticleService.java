@@ -1,10 +1,10 @@
-package com.baeldung.service;
+package com.baeldung.service.workFlows;
 
 import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.JavaDelegate;
 
-public class SendMailService implements JavaDelegate {
+public class PublishArticleService implements JavaDelegate {
     public void execute(DelegateExecution execution) {
-        System.out.println("Sending rejection mail to author.");
+        System.out.println("Publishing the approved article.");
     }
 }

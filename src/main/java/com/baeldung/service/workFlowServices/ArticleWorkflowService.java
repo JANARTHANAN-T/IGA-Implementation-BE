@@ -1,4 +1,4 @@
-package com.baeldung.service;
+package com.baeldung.service.workFlowServices;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -7,8 +7,15 @@ import com.baeldung.domain.*;
 import com.baeldung.helper.Helper;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
+import com.baeldung.service.repositaryServices.UserRepToModel;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
+import org.flowable.engine.impl.ActivityInstanceQueryImpl;
+import org.flowable.engine.runtime.ActivityInstance;
+import org.flowable.engine.runtime.ActivityInstanceQuery;
+import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
@@ -18,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ArticleWorkflowService {
+
     @Autowired
     private RuntimeService runtimeService;
     @Autowired
@@ -33,7 +41,16 @@ public class ArticleWorkflowService {
         variables.put("userId", user.getUserId());
         variables.put("email", user.getEmail());
         variables.put("role", user.getRole());
-        runtimeService.startProcessInstanceByKey("userOnboarding", variables);
+        UserRepToModel.createUserFromRep(user);
+
+        runtimeService.createExecutionQuery().onlyProcessInstanceExecutions().list();
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(article.getRole(), variables);
+
+
+        ActivityInstanceQuery a = new ActivityInstanceQueryImpl();
+        System.out.println(a.activityId(processInstance.getActivityId()).singleResult().getTaskId());
+//        Task task = taskService.createTaskQuery().singleResult();
+//        System.out.println(task.getId());
     }
 
     @Transactional

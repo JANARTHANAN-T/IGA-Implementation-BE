@@ -3,8 +3,12 @@ package com.baeldung.domain;
 public class Article {
 
     private String id;
+    private String userId;
+    private String email;
+    private String role;
     private String author;
     private String url;
+    private String step;
 
     public Article() {
     }
@@ -22,6 +26,15 @@ public class Article {
 
     public String getId() {
         return id;
+    }
+
+    public Article(String id, String userId, String url, String role, String author, String email) {
+        this.id = id;
+        this.userId = userId;
+        this.email = email;
+        this.role = role;
+        this.author = author;
+        this.url = url;
     }
 
     public void setId(String id) {
@@ -42,6 +55,38 @@ public class Article {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getStep() {
+        return step;
+    }
+
+    public void setStep(String step) {
+        this.step = step;
     }
 
     @Override

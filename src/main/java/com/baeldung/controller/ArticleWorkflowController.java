@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.baeldung.domain.Approval;
+import com.baeldung.domain.Article;
+import com.baeldung.service.workFlowServices.ArticleWorkflowService;
 import com.baeldung.domain.Step;
-import com.baeldung.service.ArticleWorkflowService;
 
 @RestController
 public class ArticleWorkflowController {
