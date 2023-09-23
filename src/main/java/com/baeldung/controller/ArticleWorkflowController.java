@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.baeldung.domain.Subtask;
 import com.baeldung.domain.User;
+import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.baeldung.domain.Approval;
-import com.baeldung.domain.Article;
-import com.baeldung.service.workFlowServices.ArticleWorkflowService;
+import com.baeldung.service.ArticleWorkflowService;
 import com.baeldung.domain.Step;
 
 @RestController
@@ -39,5 +39,10 @@ public class ArticleWorkflowController {
     @PostMapping("/review")
     public void review(@RequestBody Approval approval) {
         service.submitReview(approval);
+    }
+
+    @GetMapping("/getPendingRequest")
+    public List<Task> getPendingRequests(@RequestParam String userId){
+        return  service.getPendingRequests(userId);
     }
 }

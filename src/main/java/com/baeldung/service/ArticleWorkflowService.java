@@ -1,11 +1,15 @@
-package com.baeldung.service.workFlowServices;
+package com.baeldung.service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baeldung.domain.*;
+import com.baeldung.entity.UserEntity;
 import com.baeldung.helper.Helper;
-import liquibase.pro.packaged.H;
+import com.baeldung.models.ReviewRequestObject;
+import com.baeldung.models.UserModel;
+import com.baeldung.repositary.UserEntityRepositary;
+import org.flowable.bpmn.model.Activity;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import com.baeldung.service.repositaryServices.UserRepToModel;
@@ -34,7 +38,7 @@ public class ArticleWorkflowService {
     @Autowired
     private HistoryService historyService;
     @Autowired
-    private RepositoryService repositoryService;
+    private UserEntityRepositary rep;
 
     @Transactional
     public void startProcess(User user) {
@@ -42,13 +46,16 @@ public class ArticleWorkflowService {
         variables.put("userId", user.getUserId());
         variables.put("email", user.getEmail());
         variables.put("role", user.getRole());
-        UserRepToModel.createUserFromRep(user);
+        variables.put("flow", user.getFlow());
+
+        // the format of the string will be like - "onboarding_developer"
+        String processInstanceKey = user.getFlow() + "_" + user.getRole();
 
         runtimeService.createExecutionQuery().onlyProcessInstanceExecutions().list();
 
 
         // needs to be changed as per the role
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(user.getRole(), variables);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processInstanceKey, variables);
 
     }
 
@@ -113,5 +120,23 @@ public class ArticleWorkflowService {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("approved", approval.isStatus());
         taskService.complete(approval.getId(), variables);
+    }
+
+    static Map<String, Object> variables = new HashMap<>();
+
+    @Transactional
+    public List<Task> getPendingRequests(String userId){
+
+        List<Task> finalTasksToBeSent = new ArrayList<>();
+        taskService.createTaskQuery().list().forEach(x -> {
+            variables = runtimeService.getVariables(x.getExecutionId());
+            if(variables.containsKey("owner") && variables.get("owner").equals(userId) &&variables.containsKey("activityId") && variables.containsKey("processId")){
+                    finalTasksToBeSent.add(x);
+            }
+        });
+//        finalTasksToBeSent.stream().map(x-> {
+//            return new ReviewRequestObject(x.)
+//        })
+        return finalTasksToBeSent;
     }
 }
