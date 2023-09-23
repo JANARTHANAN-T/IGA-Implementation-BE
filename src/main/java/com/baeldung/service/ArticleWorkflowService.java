@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.baeldung.domain.*;
 import com.baeldung.helper.Helper;
+import liquibase.pro.packaged.H;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
@@ -64,14 +65,12 @@ public class ArticleWorkflowService {
     public List<Step> getCompletedTasksForUser(String userId) {
         List<HistoricTaskInstance> tasks = historyService.createHistoricTaskInstanceQuery().list();
         return tasks.stream()
-                //TODO add filter for userid
+                .filter(task -> Helper.isSpecificToUser(task.getProcessInstanceId(), historyService.createHistoricVariableInstanceQuery().list(), userId))
                 .filter(task -> task.getEndTime() != null)
-                .map(task -> {
-                    Map<String, Object> variables = taskService.getVariables(task.getId());
-                    return new Step(task.getId(), task.getName(), task.getDescription(), task.getPriority(), "Kiran", (String) variables.get("userId"), task.getProcessInstanceId());
-                })
+                .map(task ->
+                     new Step(task.getId(), task.getName(), task.getDescription(), task.getPriority(), "Kiran", userId, task.getProcessInstanceId())
+                )
                 .collect(Collectors.toList());
-
     }
 
     @Transactional
