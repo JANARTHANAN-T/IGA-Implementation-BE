@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import com.baeldung.domain.*;
 import com.baeldung.helper.Helper;
-import liquibase.pro.packaged.H;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
@@ -13,6 +12,7 @@ import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
+import org.flowable.variable.api.history.HistoricVariableInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,5 +98,23 @@ public class ArticleWorkflowService {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("approved", approval.isStatus());
         taskService.complete(approval.getId(), variables);
+    }
+
+    @Transactional
+    public DashboardData getDashboardData(String userId) {
+        DashboardData dashboardData = new DashboardData();
+        dashboardData.setCompletedRequests(getCompletedTasksForUser(userId).size());
+        dashboardData.setPendingTasks(getOpenTasksForUser(userId).size());
+        List<HistoricVariableInstance> variables = historyService.createHistoricVariableInstanceQuery().list().stream()
+                .filter(variable -> variable.getVariableName().equals("userId") && Optional.ofNullable(variable.getValue()).orElse("").equals(userId))
+                .collect(Collectors.toList());
+        if(!variables.isEmpty()) {
+            String processId = variables.get(0).getProcessInstanceId();
+            dashboardData.setRejectedRequests((int) historyService.createHistoricVariableInstanceQuery().list().stream()
+                    .filter(variable -> variable.getProcessInstanceId().equals(processId))
+                    .filter(variable -> variable.getVariableName().equals("approved") && !(boolean) variable.getValue())
+                    .count());
+        }
+        return dashboardData;
     }
 }

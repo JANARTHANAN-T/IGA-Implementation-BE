@@ -2,13 +2,10 @@ package com.baeldung.controller;
 
 import java.util.List;
 
-import com.baeldung.domain.Subtask;
-import com.baeldung.domain.User;
+import com.baeldung.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.baeldung.domain.Approval;
-import com.baeldung.domain.Step;
 import com.baeldung.service.ArticleWorkflowService;
 
 @RestController
@@ -38,5 +35,9 @@ public class ArticleWorkflowController {
     @PostMapping("/review")
     public void review(@RequestBody Approval approval) {
         service.submitReview(approval);
+    }
+    @GetMapping("/dashboard")
+    public DashboardData getDashboardData(@RequestParam String userId) {
+        return service.getDashboardData(userId);
     }
 }
