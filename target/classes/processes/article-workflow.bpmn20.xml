@@ -15,8 +15,9 @@
 		<startEvent id="start" />
 		<sequenceFlow sourceRef="start" targetRef="reviewArticle" />
 		<userTask id="reviewArticle"
-			name="Review the submitted tutorial"
-			flowable:candidateGroups="editors" />
+			name="Provide access to gitlab"
+			flowable:candidateGroups="editors"
+		/>
 		<sequenceFlow sourceRef="reviewArticle"
 			targetRef="decision" />
 		<exclusiveGateway id="decision" />

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:flowable="http://flowable.org/bpmn"
+	typeLanguage="http://www.w3.org/2001/XMLSchema"
+	expressionLanguage="http://www.w3.org/1999/XPath"
+	targetNamespace="http://www.flowable.org/processdef">
+	<process id="userOnboarding"
+		name="User Onboarding" isExecutable="true">
+		<startEvent id="start" />
+		<sequenceFlow sourceRef="start" targetRef="gitlabAccess" />
+		<serviceTask id="gitlabAccess"
+					 name="Provide acces to gitlab"
+					 flowable:class="com.baeldung.service.GrantGitlabAccessService" />
+		<sequenceFlow sourceRef="gitlabAccess"
+					  targetRef="azureAccess" />
+		<serviceTask id="azureAccess"
+					 name="Initiate access request to Azure Admin"
+					 flowable:class="com.baeldung.service.GrantAzureAccessService" />
+		<sequenceFlow sourceRef="gitlabAccess"
+					  targetRef="azureAccessApproval" />
+		<userTask id="azureAccessApproval"
+				  name="Admin approval after successful access grant in Azure"
+				  flowable:candidateGroups="editors"
+		/>
+		<sequenceFlow sourceRef="azureAccessApproval"
+					  targetRef="decision" />
+		<exclusiveGateway id="decision" />
+		<sequenceFlow sourceRef="decision"
+					  targetRef="successNotification">
+			<conditionExpression xsi:type="tFormalExpression">
+				<![CDATA[
+		          ${approved}
+		        ]]>
+			</conditionExpression>
+		</sequenceFlow>
+		<sequenceFlow sourceRef="decision"
+					  targetRef="failureNotification">
+			<conditionExpression xsi:type="tFormalExpression">
+				<![CDATA[
+		          ${!approved}
+		        ]]>
+			</conditionExpression>
+		</sequenceFlow>
+		<serviceTask id="successNotification"
+					 name="Send notification to user after successful onboarding"
+					 flowable:class="com.baeldung.service.SuccessNotificationService" />
+		<sequenceFlow sourceRef="successNotification"
+					  targetRef="end" />
+		<serviceTask id="failureNotification"
+			name="Send out failure notification to user if onboarding fails"
+			flowable:class="com.baeldung.service.FailureNotificationService" />
+		<sequenceFlow sourceRef="failureNotification"
+			targetRef="end" />
+		<endEvent id="end" />
+	</process>
+</definitions>
