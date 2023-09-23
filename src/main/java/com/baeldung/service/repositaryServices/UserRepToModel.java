@@ -1,16 +1,17 @@
 package com.baeldung.service.repositaryServices;
 
 import com.baeldung.domain.Article;
+import com.baeldung.domain.User;
 import com.baeldung.entity.UserEntity;
 import com.baeldung.models.UserModel;
 import com.baeldung.repositary.UserEntityRepositary;
 
 public class UserRepToModel {
-    public static UserModel createUserFromRep(Article article){
+    public static UserModel createUserFromRep(User user){
         UserModel userModel = new UserModel();
-        userModel.setUser_id(article.getUserId());
-        userModel.setEmail(article.getEmail());
-        userModel.setRole(article.getRole());
+        userModel.setUser_id(user.getUserId());
+        userModel.setEmail(user.getEmail());
+        userModel.setRole(user.getRole());
         UserEntityRepositary rep = new UserEntityRepositary();
         rep.saveAndFlush(new UserEntity(userModel));
 

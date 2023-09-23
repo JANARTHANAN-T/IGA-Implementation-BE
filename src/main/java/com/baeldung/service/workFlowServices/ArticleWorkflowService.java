@@ -44,13 +44,11 @@ public class ArticleWorkflowService {
         UserRepToModel.createUserFromRep(user);
 
         runtimeService.createExecutionQuery().onlyProcessInstanceExecutions().list();
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(article.getRole(), variables);
 
 
-        ActivityInstanceQuery a = new ActivityInstanceQueryImpl();
-        System.out.println(a.activityId(processInstance.getActivityId()).singleResult().getTaskId());
-//        Task task = taskService.createTaskQuery().singleResult();
-//        System.out.println(task.getId());
+        // needs to be changed as per the role
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(user.getRole(), variables);
+
     }
 
     @Transactional
