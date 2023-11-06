@@ -24,6 +24,7 @@ import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
+import org.flowable.variable.api.history.HistoricVariableInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,7 +126,7 @@ public class ArticleWorkflowService {
     static Map<String, Object> variables = new HashMap<>();
 
     @Transactional
-    public List<Task> getPendingRequests(String userId){
+    public List<ReviewRequestObject> getPendingRequests(String userId){
 
         List<Task> finalTasksToBeSent = new ArrayList<>();
         taskService.createTaskQuery().list().forEach(x -> {
@@ -137,6 +138,24 @@ public class ArticleWorkflowService {
 //        finalTasksToBeSent.stream().map(x-> {
 //            return new ReviewRequestObject(x.)
 //        })
-        return finalTasksToBeSent;
+        return finalTasksToBeSent.stream().map(x-> {return new ReviewRequestObject(x.getId(), x.getDescription(), x.getTaskDefinitionKey());}).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public DashboardData getDashboardData(String userId) {
+        DashboardData dashboardData = new DashboardData();
+        dashboardData.setPendingRequests(getOpenTasksForUser(userId).size());
+        dashboardData.setPendingTasks(getOpenTasksForUser(userId).size());
+        List<HistoricVariableInstance> variables = historyService.createHistoricVariableInstanceQuery().list().stream()
+                .filter(variable -> variable.getVariableName().equals("userId") && Optional.ofNullable(variable.getValue()).orElse("").equals(userId))
+                .collect(Collectors.toList());
+        if(!variables.isEmpty()) {
+            String processId = variables.get(0).getProcessInstanceId();
+            dashboardData.setRejectedRequests((int) historyService.createHistoricVariableInstanceQuery().list().stream()
+                    .filter(variable -> variable.getProcessInstanceId().equals(processId))
+                    .filter(variable -> variable.getVariableName().equals("approved") && !(boolean) variable.getValue())
+                    .count());
+        }
+        return dashboardData;
     }
 }

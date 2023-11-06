@@ -1,0 +1,61 @@
+
+u
+java:S2293."YReplace the type specification in this constructor call with the diamond operator ("<>").(»¹8Ì “¤¬1
+u
+java:S2293y"YReplace the type specification in this constructor call with the diamond operator ("<>").(»¹8Ì “¤¬1
+h
+java:S1192E"FDefine a constant instead of duplicating this literal "Kiran" 3 times.(ÍÚôıÿÿÿÿ8Í “¤¬1
+i
+java:S1192/"GDefine a constant instead of duplicating this literal "userId" 5 times.(–ä¹Æÿÿÿÿÿ8Í “¤¬1
+`
+java:S1854;"CRemove this useless assignment to local variable "processInstance".(éñª©8İ “¤¬1
+Z
+java:S1117.">Rename "variables" which hides the field declared at line 126.(»¹8İ “¤¬1
+Q
+java:S1481;"4Remove this unused "processInstance" local variable.(éñª©8ß “¤¬1
+o
+java:S6204G"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8à “¤¬1
+[
+java:S1117D">Rename "variables" which hides the field declared at line 126.(ö÷ùÖ8à “¤¬1
+o
+java:S6204S"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8á “¤¬1
+[
+java:S1117P">Rename "variables" which hides the field declared at line 126.(ö÷ùÖ8â “¤¬1
+o
+java:S6204`"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ä “¤¬1
+o
+java:S6204r"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ç “¤¬1
+Z
+java:S1117y">Rename "variables" which hides the field declared at line 126.(»¹8ç “¤¬1
+Y
+java:S2696…"6Make the enclosing method "static" or remove this set.(Â×»Êüÿÿÿÿ8é “¤¬1
+X	java:S125Š"<This block of commented-out lines of code should be removed.(Ú®¤8ê “¤¬1
+u
+java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(¼ï—Šüÿÿÿÿ8ê “¤¬1
+v
+java:S1602"SRemove useless curly braces around statement and then remove useless return keyword(¼ï—Šüÿÿÿÿ8ê “¤¬1
+a
+java:S1117•">Rename "variables" which hides the field declared at line 126.(ŒØÜ¼şÿÿÿÿ8ë “¤¬1
+p
+java:S6204—"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ë “¤¬1
+X
+java:S1128";Remove this unused import 'com.baeldung.entity.UserEntity'.(ø¹ş™8Ã¿“¤¬1
+\
+java:S1128
+":Remove this unused import 'com.baeldung.models.UserModel'.(¨Äìüúÿÿÿÿ8Ã¿“¤¬1
+Z
+java:S1128"=Remove this unused import 'org.flowable.bpmn.model.Activity'.(¤ÖËï8Ä¿“¤¬1
+@
+java:S1128"Remove this duplicated import.(ÑåƒØùÿÿÿÿ8í “¤¬1
+u
+java:S1128"SRemove this unused import 'com.baeldung.service.repositaryServices.UserRepToModel'.(ï¬³üÿÿÿÿ8Ä¿“¤¬1
+;
+java:S1128"Remove this duplicated import.(Ìü¼±8í “¤¬1
+@
+java:S1128"Remove this duplicated import.(ÑåƒØùÿÿÿÿ8Ä¿“¤¬1
+q
+java:S1128"ORemove this unused import 'org.flowable.engine.impl.ActivityInstanceQueryImpl'.(ˆ±¦ƒùÿÿÿÿ8Ä¿“¤¬1
+f
+java:S1128"IRemove this unused import 'org.flowable.engine.runtime.ActivityInstance'.(ÔİÛ8Ä¿“¤¬1
+k
+java:S1128"NRemove this unused import 'org.flowable.engine.runtime.ActivityInstanceQuery'.(½È8Ä¿“¤¬1

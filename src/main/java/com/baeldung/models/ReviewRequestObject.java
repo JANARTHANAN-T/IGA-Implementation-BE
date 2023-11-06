@@ -9,8 +9,7 @@ public class ReviewRequestObject {
     public ReviewRequestObject() {
     }
 
-    public ReviewRequestObject(String userId, String taskId, String description, String req_type) {
-        this.userId = userId;
+    public ReviewRequestObject(String taskId, String description, String req_type) {
         this.taskId = taskId;
         this.description = description;
         this.req_type = req_type;

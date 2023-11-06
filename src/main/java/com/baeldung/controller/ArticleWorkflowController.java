@@ -2,8 +2,10 @@ package com.baeldung.controller;
 
 import java.util.List;
 
+import com.baeldung.domain.*;
 import com.baeldung.domain.Subtask;
 import com.baeldung.domain.User;
+import com.baeldung.models.ReviewRequestObject;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import com.baeldung.service.ArticleWorkflowService;
 import com.baeldung.domain.Step;
 
 @RestController
+@CrossOrigin(value = "*")
 public class ArticleWorkflowController {
     @Autowired
     private ArticleWorkflowService service;
@@ -40,9 +43,13 @@ public class ArticleWorkflowController {
     public void review(@RequestBody Approval approval) {
         service.submitReview(approval);
     }
+    @GetMapping("/dashboard")
+    public DashboardData getDashboardData(@RequestParam String userId) {
+        return service.getDashboardData(userId);
+    }
 
     @GetMapping("/getPendingRequest")
-    public List<Task> getPendingRequests(@RequestParam String userId){
+    public List<ReviewRequestObject> getPendingRequests(@RequestParam String userId){
         return  service.getPendingRequests(userId);
     }
 }
